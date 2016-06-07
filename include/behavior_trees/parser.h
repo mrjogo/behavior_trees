@@ -10,6 +10,6 @@ extern std::vector<double>      global_varvalue;
 
 int process_substring(std::string sub);
 
-int parse_file(std::string name);
+int parse_file(std::string param_name);
 
 #endif

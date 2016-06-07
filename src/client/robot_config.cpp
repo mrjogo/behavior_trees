@@ -31,33 +31,3 @@ std::string readCmdLineOption(int argc, char** argv, std::string argument_name)
 	}
 	return return_string;
 }
-
-// std::string readRobotIPFromCmdLine(int argc, char** argv)
-// {
-// 	std::string robot_ip = readCmdLineOption(argc, argv, "robot_ip");
-// 	if (robot_ip.length() < 1)
-// 	{
-// 		robot_ip = "localhost";
-// 	}
-// 	return robot_ip;
-// }
-
-// std::string readColorFromCmdLine(int argc, char** argv)
-// {
-// 	std::string color_string = readCmdLineOption(argc, argv, "color");
-// 	if (color_string.length() < 1)
-// 	{
-// 		color_string = "red";
-// 	}
-// 	return color_string;
-// }
-
-std::string readAgentFromCmdLine(int argc, char** argv)
-{
-	std::string agent_string = readCmdLineOption(argc, argv, "agent");
-	if (agent_string.length() < 1)
-	{
-		agent_string = "default";
-	}
-	return agent_string;
-}

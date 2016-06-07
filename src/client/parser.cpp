@@ -2,9 +2,7 @@
 #include "behavior_trees/node.h"
 
 #include <sstream>
-#include <fstream>
 
-extern std::string agent;
 extern Node *node;
 bool action_detected = false;
 bool condition_detected = false;
@@ -84,22 +82,22 @@ int process_substring(std::string sub)
   return 0;
 }
 
-int parse_file(std::string name)
+int parse_file(std::string param_name)
 {
   std::string line;
-  std::string path = ros::package::getPath("apc_bt_launcher");
-  std::ifstream file(path + "/data/" + name);
+  std::string bt_raw;
 
-  if (!file.is_open())
-  {
+  if (!ros::param::get(param_name, bt_raw)) { 
     std::cout << "Couldn't Open File" << std::endl;
     return 1;
   }
-  std::cout << "File Called " << name << " Opened Correctly" << std::endl;
 
-  while (file.good())
+  std::cout << "Got parameter " << param_name << std::endl;
+
+  std::istringstream bt_data(bt_raw);
+  while (bt_data.good())
   {
-    getline(file, line);
+    getline(bt_data, line);
     std::cout << "Reading line: " << line << std::endl;
     std::istringstream iss(line);
     int i = 0;
@@ -115,7 +113,7 @@ int parse_file(std::string name)
         std::string actionname;
         iss >> actionname;
         std::cout << "ROS Action Detected: " << actionname << std::endl;
-        node = new NodeROS(node, actionname + "_" + agent);
+        node = new NodeROS(node, actionname);
         node = node->get_parent();
         action_detected = false;
       }
@@ -164,6 +162,5 @@ int parse_file(std::string name)
       i++;
     } while (iss);
   }
-  file.close();
   return 0;
 }

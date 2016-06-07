@@ -59,10 +59,8 @@ int main(int argc, char** argv)
 	std::cout << "Hello, world!" << std::endl;
 	// specify which options are available as cmd line arguments
 	setupCmdLineReader();
-	// read agent id from command line parameters (--agent=mario)
-	std::string agent = readAgentFromCmdLine(argc, argv);
 	// initialize the behavior tree server node
-	ros::init(argc, argv, std::string("action_name") + "_" + agent); // name used for bt.txt
+	ros::init(argc, argv, std::string("action_name"));
 	ActionName server(ros::this_node::getName());
 	ros::spin();
 	return 0;

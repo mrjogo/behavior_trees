@@ -1,0 +1,9 @@
+behavior_tree: |
+  [*
+    A action_name
+    A action_name
+    {*
+      A action_name
+      A action_name
+    }
+  ]

@@ -14,7 +14,6 @@ NodeRoot root;             // the root of the bt
 Node *node_cursor = NULL;  // used for displaying bt
 Node *node = NULL;         // used for parsing bt
 extern bool run;
-std::string agent;
 
 void signal_callback_handler(int signum)
 {
@@ -34,11 +33,8 @@ int main(int argc, char **argv)
   // specify which options are available as cmd line arguments
   setupCmdLineReader();
 
-  // read agent id from command line parameters (--agent=mario)
-  agent = readAgentFromCmdLine(argc, argv);
-
   // initialize the behavior tree client node
-  ros::init(argc, argv, std::string("behavior_tree") + "_" + agent);
+  ros::init(argc, argv, std::string("behavior_tree"));
 
   // initialize OpenGL engine for visualization
   glut_setup(argc, argv);
@@ -49,18 +45,8 @@ int main(int argc, char **argv)
 
   // create the bt from the file bt.txt (put on the path)
   std::cout << "----------------- PARSE FILE -----------------" << std::endl;
-  std::string filename;
 
-  if (ros::param::has("/apc/bt/file"))
-  {
-    ros::param::get("/apc/bt/file", filename);
-  }
-  else
-  {
-    filename = std::string("bt") + "_" + agent;
-  }
-
-  parse_file(filename + ".txt");
+  parse_file("/behavior_tree");
 
   // print the data parsed from the specification file
   std::cout << "----------------- PRINT TREE -----------------" << std::endl;
