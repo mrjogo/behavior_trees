@@ -9,8 +9,7 @@ bool condition_detected = false;
 bool variable_detected = false;
 bool decorator_detected = false;
 
-std::vector<std::string> global_varname;
-std::vector<double> global_varvalue;
+std::unordered_map<std::string, double> global_vars;
 
 int process_substring(std::string sub)
 {
@@ -137,14 +136,7 @@ int parse_file(std::string param_name)
         iss >> varlabel;
         iss >> initialval;
         std::cout << "Variable Detected: " << varlabel << initialval << std::endl;
-        global_varname.push_back(varlabel);
-        global_varvalue.push_back(std::stod(initialval));
-        std::cout << "Printing variable labels" << std::endl;
-        std::copy(global_varname.begin(), global_varname.end(), std::ostream_iterator<std::string>(std::cout, " "));
-        std::cout << std::endl;
-        std::cout << "Printing variable values" << std::endl;
-        std::copy(global_varvalue.begin(), global_varvalue.end(), std::ostream_iterator<float>(std::cout, " "));
-        std::cout << std::endl;
+        global_vars[varlabel] = std::stod(initialval);
         variable_detected = false;
       }
       if (decorator_detected)

@@ -2,11 +2,10 @@
 #define PARSER_H_
 
 #include <iostream>
-#include <vector>
+#include <unordered_map>
 #include <ros/package.h>
 
-extern std::vector<std::string> global_varname;
-extern std::vector<double>      global_varvalue;
+extern std::unordered_map<std::string, double> global_vars;
 
 int process_substring(std::string sub);
 

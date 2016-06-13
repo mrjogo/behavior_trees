@@ -1,5 +1,4 @@
 #include <iostream>
-// #include <vector>
 
 #include "behavior_trees/node.h"
 #include "behavior_trees/display.h"
@@ -468,16 +467,7 @@ STATE NodeCondition::execute() {
   if (relation_.compare("="))
     std::cout << "it's equality" << std::endl;
 
-  unsigned int idx = 0;
-  for (std::vector<std::string>::iterator it = global_varname.begin();
-       it != global_varname.end(); ++it) {
-    if (*it == varlabel_) {
-      std::cout << "found match " << idx << std::endl;
-      break;
-    }
-    idx++;
-  }
-  double val = global_varvalue.at(idx);
+  double val = global_vars[varlabel_];
   std::cout << "val" << val << std::endl;
 
   set_highlighted(false);
@@ -512,51 +502,23 @@ STATE NodeDecorator::execute() {
   set_highlighted(false);
 
   if (child_status_ == SUCCESS) {
-    unsigned int idx = 0;
-    for (std::vector<std::string>::iterator it = global_varname.begin();
-         it != global_varname.end(); ++it) {
-      if (*it == prev_status_)
-        break;
-      idx++;
-    }
     // prev_status = success
-    global_varvalue[idx] = 0;
-    std::cout << "global_varvalue" << global_varvalue[idx] << std::endl;
+    global_vars[prev_status_] = 0;
+    std::cout << "global_vars" << global_vars[prev_status_] << std::endl;
 
-    idx = 0;
-    for (std::vector<std::string>::iterator it = global_varname.begin();
-         it != global_varname.end(); ++it) {
-      if (*it == curr_state_)
-        break;
-      idx++;
-    }
     // curr_state = next_state
-    global_varvalue[idx] = std::stod(next_state_);
-    std::cout << "global_varvalue" << global_varvalue[idx] << std::endl;
+    global_vars[curr_state_] = std::stod(next_state_);
+    std::cout << "global_vars" << global_vars[curr_state_] << std::endl;
 
     return node_status_ = SUCCESS;
   } else if (child_status_ == FAILURE) {
-    unsigned int idx = 0;
-    for (std::vector<std::string>::iterator it = global_varname.begin();
-         it != global_varname.end(); ++it) {
-      if (*it == prev_status_)
-        break;
-      idx++;
-    }
     // prev_status = failure
-    global_varvalue[idx] = 1;
-    std::cout << "global_varvalue" << global_varvalue[idx] << std::endl;
+    global_vars[prev_status_] = 1;
+    std::cout << "global_vars" << global_vars[prev_status_] << std::endl;
 
-    idx = 0;
-    for (std::vector<std::string>::iterator it = global_varname.begin();
-         it != global_varname.end(); ++it) {
-      if (*it == curr_state_)
-        break;
-      idx++;
-    }
     // curr_state = next_state
-    global_varvalue[idx] = std::stod(next_state_);
-    std::cout << "global_varvalue" << global_varvalue[idx] << std::endl;
+    global_vars[curr_state_] = std::stod(next_state_);
+    std::cout << "global_vars" << global_vars[curr_state_] << std::endl;
 
     return node_status_ = SUCCESS;
   } else if (child_status_ == RUNNING)
