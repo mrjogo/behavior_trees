@@ -1,5 +1,6 @@
 <launch>
-  <rosparam command="load" file="$(find behavior_trees)/data/template.yaml" />
+  <!-- <rosparam command="load" file="$(find behavior_trees)/data/template.yaml" /> -->
+  <param name="behavior_tree" textfile="$(find behavior_trees)/data/template.yaml" />
 
   <group ns="myrobot">
     <node name="action_name" pkg="behavior_trees" type="template_server" output="screen" />

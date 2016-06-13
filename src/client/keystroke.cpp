@@ -27,7 +27,6 @@ bool S2_keydown = false;
 bool S3_keypressed = false;
 bool S3_keydown = false;
 
-extern NodeRoot root;
 extern bool* keyStates;
 
 int get_keypressed()
@@ -176,9 +175,6 @@ int process_keypressed()
 
 	// if (S3_keypressed)
 	// 	set_node_state(RUNNING);
-
-	// if (S1_keypressed || S2_keypressed || S3_keypressed || BACK_keypressed)
-	// 	root.execute();
 
 	return 0;
 }

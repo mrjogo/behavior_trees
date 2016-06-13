@@ -3,7 +3,7 @@
 
 #include <sstream>
 
-extern Node *node;
+Node *node;
 bool action_detected = false;
 bool condition_detected = false;
 bool variable_detected = false;
@@ -81,10 +81,12 @@ int process_substring(std::string sub)
   return 0;
 }
 
-int parse_file(std::string param_name)
+int parse_file(std::string param_name, Node *root)
 {
   std::string line;
   std::string bt_raw;
+
+  node = root;
 
   if (!ros::param::get(param_name, bt_raw)) { 
     std::cout << "Couldn't Open File" << std::endl;

@@ -1,9 +1,18 @@
-behavior_tree: |
-  [*
-    A action_name
-    A action_name
-    {*
-      A action_name
-      A action_name
-    }
-  ]
+root:
+  seq_star:
+    - action: action_name
+    - action: action_name
+    - sel_star:
+      - action: action_name
+      - action: action_name
+      - action: action_name
+
+# behavior_tree: |
+#   [*
+#     A action_name
+#     A action_name
+#     {*
+#       A action_name
+#       A action_name
+#     }
+#   ]

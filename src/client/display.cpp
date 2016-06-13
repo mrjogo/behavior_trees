@@ -1,7 +1,7 @@
 #include "behavior_trees/display.h"
 
 static GLuint font_base;
-extern NodeRoot root;
+extern NodeRoot *root;
 bool* keyStates = new bool[256];
 bool* keySpecialStates = new bool[246];
 
@@ -105,7 +105,7 @@ void draw_all()
 {
 	std::cout << "Drawing Everything" << std::endl;
 	glClear(GL_COLOR_BUFFER_BIT);
-	root.draw_subtree((GLfloat) (CENTER_ROW), (GLfloat) (FIRST_LINE), 1,
+	root->draw_subtree((GLfloat) (CENTER_ROW), (GLfloat) (FIRST_LINE), 1,
 	                  (GLfloat) (SCREEN_WIDTH));
 	glutSwapBuffers();
 }

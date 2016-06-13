@@ -39,6 +39,23 @@ if(NOT OPENGL_FOUND)
     message(ERROR " OPENGL not found!")
 endif(NOT OPENGL_FOUND)
 
+
+#########################################################
+# FIND YAML-CPP
+#########################################################
+# yaml-cpp find_package() module not yet released
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(YAML_CPP REQUIRED yaml-cpp)
+find_path(YAML_CPP_INCLUDE_DIRS
+          NAMES yaml_cpp.h
+          PATHS ${YAML_CPP_INCLUDE_DIRS})
+find_library(YAML_CPP_LIBRARIES
+             NAMES YAML_CPP
+             PATHS ${YAML_CPP_LIBRARY_DIRS})
+
+include_directories(${YAML_CPP_INCLUDE_DIRS})
+link_directories(${YAML_CPP_LIBRARY_DIRS})
+
 catkin_python_setup()
 
 # Generate actions in the 'action' folder
@@ -80,7 +97,7 @@ include_directories(
 file(GLOB_RECURSE SRC ${PROJECT_SOURCE_DIR}/src/client/*.cpp)
 
 add_executable(${PROJECT_NAME} ${SRC})
-target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${catkin_LIBRARIES} ${Boost_LIBRARIES} X11)
+target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${YAML_CPP_LIBRARIES} X11)
 
 add_executable(template_server src/server/template_server.cpp src/server/rosaction.cpp src/client/robot_config.cpp)
 target_link_libraries(template_server ${catkin_LIBRARIES} ${Boost_LIBRARIES} X11)
