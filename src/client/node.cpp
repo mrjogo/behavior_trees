@@ -4,7 +4,7 @@
 #include "behavior_trees/display.h"
 #include "behavior_trees/parser.h"
 
-std::unordered_map<std::string, double> global_vars;
+std::map<std::string, double> global_vars;
 
 // constructor for the root node
 Node::Node() {
