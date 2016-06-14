@@ -77,12 +77,12 @@ include_directories(
   ${Boost_INCLUDE_DIRS}
 )
 
-file(GLOB_RECURSE SRC ${PROJECT_SOURCE_DIR}/src/client/*.cpp)
+file(GLOB_RECURSE CLIENT_SRC ${PROJECT_SOURCE_DIR}/src/client/*.cpp)
 
-add_executable(${PROJECT_NAME} ${SRC})
+add_executable(${PROJECT_NAME} ${CLIENT_SRC})
 target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${catkin_LIBRARIES} ${Boost_LIBRARIES} X11)
 
-add_executable(template_server src/server/template_server.cpp src/server/rosaction.cpp src/client/robot_config.cpp)
+add_executable(template_server src/server/template_server.cpp src/server/rosaction.cpp)
 target_link_libraries(template_server ${catkin_LIBRARIES} ${Boost_LIBRARIES} X11)
 
 add_library(bt_server STATIC ${PROJECT_SOURCE_DIR}/src/server/rosaction.cpp)
