@@ -1,6 +1,5 @@
 #include <iostream>
 #include <unistd.h>
-#include <signal.h>
 
 #include "behavior_trees/parameters.h"
 #include "behavior_trees/node.h"
@@ -8,28 +7,13 @@
 #include "behavior_trees/display.h"
 #include "behavior_trees/keystroke.h"
 #include "behavior_trees/navigation.h"
-#include "behavior_trees/robot_config.h"
 
 NodeRoot *root;             // the root of the bt
 Node *node_cursor = NULL;  // used for displaying bt
 
-void signal_callback_handler(int signum)
-{
-  printf("Caught signal %d\n", signum);
-  // Cleanup and close up stuff here
-  // Terminate program
-  exit(signum);
-}
-
 int main(int argc, char **argv)
 {
-  std::cout << "Hello, world!" << std::endl;
-
-  // setup signal interrupt handler
-  signal(SIGINT, signal_callback_handler);
-
-  // specify which options are available as cmd line arguments
-  setupCmdLineReader();
+  std::cout << "Behavior tree client started" << std::endl;
 
   // initialize the behavior tree client node
   ros::init(argc, argv, std::string("behavior_tree"));

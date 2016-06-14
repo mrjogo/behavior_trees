@@ -1,5 +1,4 @@
 #include "behavior_trees/rosaction.h"
-#include "behavior_trees/robot_config.h"
 
 // simple template to implement actions and conditions for the
 // platform being used, the execute callback is going to be
@@ -56,9 +55,7 @@ public:
 
 int main(int argc, char** argv)
 {
-	std::cout << "Hello, world!" << std::endl;
-	// specify which options are available as cmd line arguments
-	setupCmdLineReader();
+	std::cout << "Behavior tree template server started" << std::endl;
 	// initialize the behavior tree server node
 	ros::init(argc, argv, std::string("action_name"));
 	ActionName server(ros::this_node::getName());
