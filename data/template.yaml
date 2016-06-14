@@ -3,6 +3,11 @@ root:
     - action: action_name
     - action: action_name
     - sel_star:
+      - cond:
+          var: motor_temp
+          rel: "<"
+          const: 0.5
+          initial: 1.0
       - action: action_name
       - action: action_name
       - action: action_name

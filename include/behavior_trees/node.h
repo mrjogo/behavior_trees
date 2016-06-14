@@ -1,6 +1,7 @@
 #ifndef NODE_H_
 #define NODE_H_
 
+#include <unordered_map>
 #include <ros/ros.h>
 #include <actionlib/client/simple_action_client.h>
 #include <actionlib/client/terminal_state.h>
@@ -8,6 +9,8 @@
 
 #include <GL/freeglut.h>
 #include <GL/glu.h>
+
+extern std::unordered_map<std::string, double> global_vars;
 
 
 enum NODE_TYPE

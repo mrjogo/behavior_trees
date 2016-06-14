@@ -4,7 +4,7 @@
 
 #include "behavior_trees/parser_yaml.h"
 
-Node *walk_bt_yaml(YAML::Node yaml_node, Node *bt_parent)
+void walk_bt_yaml(YAML::Node yaml_node, Node *bt_parent)
 {
   Node *bt_node = NULL;
   switch (yaml_node.Type()) {
@@ -22,11 +22,7 @@ Node *walk_bt_yaml(YAML::Node yaml_node, Node *bt_parent)
           throw std::runtime_error("YAML behavior tree node type must be string");
         }
         const std::string bt_node_type = it->first.as<std::string>();
-        if (bt_node_type == "root")
-        {
-          bt_node = new NodeRoot();
-          walk_bt_yaml(it->second, bt_node);
-        } else if (bt_node_type == "sel")
+        if (bt_node_type == "sel")
         {
           bt_node = new NodeSelector(bt_parent);
           walk_bt_yaml(it->second, bt_node);
@@ -52,11 +48,21 @@ Node *walk_bt_yaml(YAML::Node yaml_node, Node *bt_parent)
           {
             throw std::runtime_error("YAML action name must be string");
           }
-          return new NodeROS(bt_parent, it->second.as<std::string>());
+          new NodeROS(bt_parent, it->second.as<std::string>());
         } else if (bt_node_type == "cond")
         {
-          throw std::runtime_error("Can't figure out how to support conditions yet.");
-          // bt_node = new NodeCondition(bt_parent, )
+          YAML::Node params = it->second;
+          const std::string varname = params["var"].as<std::string>();
+          // Check if variable exists
+          if (global_vars.find(varname) == global_vars.end())
+          {
+            const double initialval = (params["initial"] ? params["initial"].as<double>() : 0.0);
+            global_vars[varname] = initialval;
+          } else if (params["initial"])
+          {
+            throw std::runtime_error("Initial value cannot be set for existing variable.");
+          }
+          bt_node = new NodeCondition(bt_parent, varname, params["rel"].as<std::string>(), params["const"].as<std::string>());
         } else if (bt_node_type == "dec")
         {
           throw std::runtime_error("Can't figure out how to support decorators yet.");
@@ -68,7 +74,6 @@ Node *walk_bt_yaml(YAML::Node yaml_node, Node *bt_parent)
     default:
       throw std::runtime_error("Unexpected YAML node type!");
   }
-  return bt_node;
 }
 
 NodeRoot *parse_yaml(std::string param_name)
@@ -82,6 +87,8 @@ NodeRoot *parse_yaml(std::string param_name)
 
   std::cout << "Got parameter " << param_name << std::endl;
 
-  YAML::Node bt = YAML::Load(bt_raw);
-  return (NodeRoot *)walk_bt_yaml(bt, NULL);
+  YAML::Node yaml_root = YAML::Load(bt_raw);
+  NodeRoot *root = new NodeRoot();
+  walk_bt_yaml(yaml_root["root"], root);
+  return root;
 }

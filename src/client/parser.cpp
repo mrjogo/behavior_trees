@@ -9,8 +9,6 @@ bool condition_detected = false;
 bool variable_detected = false;
 bool decorator_detected = false;
 
-std::unordered_map<std::string, double> global_vars;
-
 int process_substring(std::string sub)
 {
   bool star_detected = false;
